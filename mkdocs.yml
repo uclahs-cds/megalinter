@@ -364,6 +364,7 @@ nav:
   - "Flavors":
       - "All flavors": "flavors.md"
       # flavors-start
+      - "bioinformatics": "flavors/bioinformatics.md"
       - "c_cpp": "flavors/c_cpp.md"
       - "ci_light": "flavors/ci_light.md"
       - "cupcake": "flavors/cupcake.md"

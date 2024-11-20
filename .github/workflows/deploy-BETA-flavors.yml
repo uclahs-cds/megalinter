@@ -54,24 +54,7 @@ jobs:
         # flavors-start
         flavor:
           [
-            "c_cpp",
-            "ci_light",
-            "cupcake",
-            "documentation",
-            "dotnet",
-            "dotnetweb",
-            "formatters",
-            "go",
-            "java",
-            "javascript",
-            "php",
-            "python",
-            "ruby",
-            "rust",
-            "salesforce",
-            "security",
-            "swift",
-            "terraform",
+            "bioinformatics",
           ]
 # flavors-end
         platform: ["linux/amd64"]

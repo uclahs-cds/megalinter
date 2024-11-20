@@ -38,24 +38,7 @@ jobs:
         # flavors-start
         flavor:
           [
-            "c_cpp",
-            "ci_light",
-            "cupcake",
-            "documentation",
-            "dotnet",
-            "dotnetweb",
-            "formatters",
-            "go",
-            "java",
-            "javascript",
-            "php",
-            "python",
-            "ruby",
-            "rust",
-            "salesforce",
-            "security",
-            "swift",
-            "terraform",
+            "bioinformatics",
           ]
 # flavors-end
     if: github.repository == 'oxsecurity/megalinter' && !contains(github.event.head_commit.message, 'skip deploy')
