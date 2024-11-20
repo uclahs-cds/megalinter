@@ -15,15 +15,7 @@
 #######################################
 name: "Build & Deploy - RELEASE - Flavors"
 on:
-  release:
-    # Want to run the automation when a release is created
-    types: ["created"]
-    paths:
-      - "Dockerfile"
-      - "megalinter/**"
-      - "flavors/**"
-      - "**/linter-versions.json"
-      - "**/.sh"
+  workflow_call:
 
 ###############
 # Set the Job #
