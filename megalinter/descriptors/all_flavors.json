@@ -1,4 +1,46 @@
 {
+    "bioinformatics": {
+        "descriptors": [
+            "ACTION",
+            "BASH",
+            "GROOVY",
+            "JAVASCRIPT",
+            "JSON",
+            "PERL",
+            "PYTHON",
+            "R",
+            "YAML"
+        ],
+        "label": "Optimized for bioinformatics projects",
+        "linters": [
+            "ACTION_ACTIONLINT",
+            "BASH_EXEC",
+            "BASH_SHELLCHECK",
+            "BASH_SHFMT",
+            "GROOVY_NPM_GROOVY_LINT",
+            "JAVASCRIPT_ES",
+            "JAVASCRIPT_STANDARD",
+            "JAVASCRIPT_PRETTIER",
+            "JSON_JSONLINT",
+            "JSON_V8R",
+            "JSON_PRETTIER",
+            "JSON_NPM_PACKAGE_JSON_LINT",
+            "PERL_PERLCRITIC",
+            "PYTHON_PYLINT",
+            "PYTHON_BLACK",
+            "PYTHON_FLAKE8",
+            "PYTHON_ISORT",
+            "PYTHON_BANDIT",
+            "PYTHON_MYPY",
+            "PYTHON_PYRIGHT",
+            "PYTHON_RUFF",
+            "R_LINTR",
+            "YAML_PRETTIER",
+            "YAML_YAMLLINT",
+            "YAML_V8R"
+        ],
+        "strict": true
+    },
     "c_cpp": {
         "descriptors": [
             "BASH",

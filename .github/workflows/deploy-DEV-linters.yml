@@ -13,7 +13,7 @@
 #######################################
 name: "Build & Deploy - DEV linters"
 on:
-  pull_request:
+  workflow_call:
 
 ###############
 # Set the Job #

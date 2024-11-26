@@ -18,8 +18,6 @@ on:
   push:
     branches:
       - "main"
-      - "FlavoredMegaLinters"
-      - dbgbeta
     paths:
       - ".github/workflows/**"
       - "Dockerfile"
@@ -56,31 +54,14 @@ jobs:
         # flavors-start
         flavor:
           [
-            "c_cpp",
-            "ci_light",
-            "cupcake",
-            "documentation",
-            "dotnet",
-            "dotnetweb",
-            "formatters",
-            "go",
-            "java",
-            "javascript",
-            "php",
-            "python",
-            "ruby",
-            "rust",
-            "salesforce",
-            "security",
-            "swift",
-            "terraform",
+            "bioinformatics",
           ]
 # flavors-end
         platform: ["linux/amd64"]
     # Only run this on the main repo
     if: >-
       (
-        github.repository == 'oxsecurity/megalinter'
+        github.repository == 'uclahs-cds/megalinter'
         && !contains(github.event.head_commit.message, 'skip deploy')
         && !contains(github.event.head_commit.message, 'Release MegaLinter v')
       )
@@ -102,42 +83,6 @@ jobs:
             prefix=beta
           tags: |
             type=raw,value=
-
-      - name: Docker Metadata action (Docker Hub)
-        uses: docker/metadata-action@v5.5.1
-        id: meta-dhub
-        with:
-          images: |
-            ${{ github.repository }}-${{ matrix.flavor }}
-          flavor: |
-            latest=false
-            prefix=beta
-          tags: |
-            type=raw,value=
-
-      - name: Docker Metadata action (Worker)
-        uses: docker/metadata-action@v5.5.1
-        id: meta-w
-        with:
-          images: |
-            name=ghcr.io/${{ github.repository }}-worker-${{ matrix.flavor }}
-          flavor: |
-            latest=false
-            prefix=beta
-          tags: |
-            type=raw,value=
-
-      # - name: Docker Metadata action (Worker Docker Hub)
-      #   uses: docker/metadata-action@v5.5.1
-      #   id: meta-w-dhub
-      #   with:
-      #     images: |
-      #       name=docker.io/${{ github.repository }}-worker-${{ matrix.flavor }}
-      #     flavor: |
-      #       latest=false
-      #       prefix=beta
-      #     tags: |
-      #       type=raw,value=
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
@@ -175,49 +120,3 @@ jobs:
           secrets: |
             GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
           tags: ${{ steps.meta.outputs.tags }}
-
-      - name: Invoke Mirror docker image workflow (Main image)
-        uses: benc-uk/workflow-dispatch@v1
-        with:
-          workflow: mirror-docker-image.yml
-          inputs: '{ "source-image": "${{ steps.meta.outputs.tags }}", "target-image": "${{ steps.meta-dhub.outputs.tags }}" }'
-
-      # - name: Build Worker Image
-      #   uses: docker/build-push-action@v6
-      #   with:
-      #     context: .
-      #     file: Dockerfile-worker
-      #     platforms: linux/amd64
-      #     build-args: |
-      #       MEGALINTER_BASE_IMAGE=${{ fromJson(steps.meta-w.outputs.json).tags[0]}}
-      #       BUILD_DATE=${{ fromJSON(steps.meta-w.outputs.json).labels['org.opencontainers.image.created'] }}
-      #       BUILD_VERSION=${{ fromJSON(steps.meta-w.outputs.json).labels['org.opencontainers.image.version'] }}
-      #       BUILD_REVISION=${{ fromJSON(steps.meta-w.outputs.json).labels['org.opencontainers.image.revision'] }}
-      #     load: false
-      #     push: ${{ github.event_name != 'pull_request' }}
-      #     secrets: |
-      #       GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
-      #     tags: ${{ steps.meta-w.outputs.tags }}
-
-      # - name: Invoke Mirror docker image workflow (Main image)
-      #   uses: benc-uk/workflow-dispatch@v1
-      #   with:
-      #     workflow: mirror-docker-image.yml
-      #     inputs: '{ "source-image": "${{ steps.meta-w.outputs.tags }}", "target-image": "${{ steps.meta-w-dhub.outputs.tags }}" }'
-
-      ##############################################
-      # Check Docker image security with Trivy #
-      ##############################################
-      - name: Run Trivy vulnerability scanner
-        uses: aquasecurity/trivy-action@master
-        with:
-          image-ref: "${{ fromJson(steps.meta.outputs.json).tags[0]}}"
-          format: "table"
-          exit-code: "1"
-          ignore-unfixed: true
-          scanners: vuln
-          vuln-type: "os,library"
-          severity: "CRITICAL,HIGH"
-          timeout: 10m0s
-        env:
-            ACTIONS_RUNTIME_TOKEN: ${{ secrets.GITHUB_TOKEN }}

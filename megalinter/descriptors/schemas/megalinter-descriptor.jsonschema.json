@@ -41,6 +41,7 @@
       "enum": [
         "all_flavors",
         "all",
+        "bioinformatics",
         "c_cpp",
         "ci_light",
         "cupcake",
